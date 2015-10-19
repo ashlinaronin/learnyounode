@@ -1,6 +1,6 @@
 var fs = require('fs');
 
-// Get filename from
+// Get filename from command line args
 var file = fs.readFileSync(process.argv[2]).toString();
 var lines = file.split('\n');
 
