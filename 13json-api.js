@@ -1,25 +1,37 @@
 var http = require('http');
 var url = require('url');
 
+function parseTime(time) {
+  return {
+    hour: time.getHours(),
+    minute: time.getMinutes(),
+    second: time.getSeconds()
+  }
+}
+
+function unixTime(time) {
+  return { unixtime: time.getTime() };
+}
+
 var server = http.createServer(function serverCallback(request, response) {
   var parsedUrl = url.parse(request.url, true);
-  var output = {};
   var jsDate = new Date(parsedUrl.query.iso);
-  //
-  // console.dir(parsedUrl);
+  var output;
 
   if (parsedUrl.pathname == '/api/parsetime') {
-    output.hour = jsDate.getHours();
-    output.minute = jsDate.getMinutes();
-    output.second = jsDate.getSeconds();
+    output = parseTime(jsDate);
   } else if (parsedUrl.pathname == '/api/unixtime') {
-    output.unixtime = jsDate.getTime();
+    output = unixTime(jsDate);
   }
 
-  response.writeHead(200, { 'Content-Type': 'application/json' });
-  response.write(JSON.stringify(output));
-  response.end();
-
+  if (output) {
+    response.writeHead(200, { 'Content-Type': 'application/json' });
+    response.write(JSON.stringify(output));
+    response.end();
+  } else {
+    response.writeHead(404);
+    response.end();
+  }
 });
 
 // Listen on port given as first CLI arg
