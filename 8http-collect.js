@@ -2,6 +2,7 @@
 ** Write a program that performs an HTTP GET request to a URL provided to you
 ** as the first command-line argument. Write the String contents of each "data"
 ** event from the response to a new line on the console (stdout).
+** Official solution uses buffer-list and lexical scope... very elegante.
 */
 var http = require('http');
 var urls = [process.argv[2], process.argv[3], process.argv[4]];
