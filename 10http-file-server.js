@@ -10,8 +10,10 @@
 var http = require('http');
 var fs = require('fs');
 
-
 var server = http.createServer(function serverCallback(request, response) {
+  // First write the HTTP response headers
+  response.writeHead(200, { 'content-type': 'text/plain' });
+
   // Create a new ReadStream with the given file location
   var fileStream = fs.createReadStream(process.argv[3]);
 
@@ -20,4 +22,4 @@ var server = http.createServer(function serverCallback(request, response) {
 });
 
 // Listen on port given as first CLI arg
-server.listen(process.argv[2]);
+server.listen(Number(process.argv[2]));
