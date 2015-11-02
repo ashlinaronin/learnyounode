@@ -14,9 +14,10 @@ var server = http.createServer(function serverCallback(request, response) {
     response.writeHead(200, { 'content-type': 'text/plain' });
     // Then pipe all request chunks through our mapping function
     request.pipe(map(function(chunk) {
-      // console.log("chunk: " + chunk);
       return chunk.toString().toUpperCase();
     })).pipe(response);
+  } else {
+    return response.end("Send me a POST request please!\n");
   }
 
 });
